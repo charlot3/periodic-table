@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>元素周期表 · 中日对照 | 周期表 · 中日対照</title>
+<style>
+  :root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #898781;
+    --hairline: #e1e0d9;
+    --ring: rgba(11,11,11,0.10);
+    --acc-alkali-metal: #e34948;
+    --acc-alkaline-earth-metal: #eda100;
+    --acc-transition-metal: #2a78d6;
+    --acc-post-transition-metal: #1baf7a;
+    --acc-metalloid: #4a3aa7;
+    --acc-nonmetal: #008300;
+    --acc-halogen: #e87ba4;
+    --acc-noble-gas: #eb6834;
+    --acc-lanthanide: #0891b2;
+    --acc-actinide: #b45309;
+    --acc-unknown: #8b8983;
+    --mix: 13%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --ink-1: #ffffff;
+      --ink-2: #c3c2b7;
+      --ink-3: #898781;
+      --hairline: #2c2c2a;
+      --ring: rgba(255,255,255,0.10);
+      --acc-alkali-metal: #e66767;
+      --acc-alkaline-earth-metal: #c98500;
+      --acc-transition-metal: #3987e5;
+      --acc-post-transition-metal: #0e7f56;
+      --acc-metalloid: #a76fd9;
+      --acc-nonmetal: #2e9e2e;
+      --acc-halogen: #d55181;
+      --acc-noble-gas: #d95926;
+      --acc-lanthanide: #1ca3c9;
+      --acc-actinide: #b05f2a;
+      --acc-unknown: #8b8983;
+      --mix: 22%;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 20px 48px; background: var(--page); color: var(--ink-1);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans",
+      "Hiragino Kaku Gothic ProN", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  }
+  :lang(ja) {
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+      "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans CJK JP", "PingFang SC", sans-serif;
+  }
+  header { max-width: 1400px; margin: 0 auto 18px; display: flex; flex-wrap: wrap; gap: 20px 36px; align-items: flex-end; }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: .5px; }
+  h1 .ja-title { color: var(--ink-2); font-size: 17px; font-weight: 500; margin-left: 10px; }
+  .subtitle { color: var(--ink-2); font-size: 13px; margin: 0; }
+  .anatomy { display: flex; gap: 10px; align-items: center; font-size: 11px; color: var(--ink-2); }
+  .anatomy .cell { width: 76px; cursor: default; }
+  .anatomy ul { list-style: none; margin: 0; padding: 0; line-height: 1.75; }
+  .wrap { max-width: 1400px; margin: 0 auto; overflow-x: auto; padding-bottom: 6px; }
+  .grid {
+    display: grid; min-width: 1240px;
+    grid-template-columns: 26px repeat(18, minmax(62px, 1fr));
+    grid-template-rows: 20px repeat(7, 96px) 18px repeat(2, 96px);
+    gap: 4px;
+  }
+  .glabel, .plabel { color: var(--ink-3); font-size: 10.5px; display: flex; align-items: center; justify-content: center; }
+  .cell {
+    position: relative; background: color-mix(in srgb, var(--acc) var(--mix), var(--surface-1));
+    border: 1px solid var(--ring); border-top: 3px solid var(--acc); border-radius: 4px;
+    padding: 15px 5px 3px; overflow: hidden; cursor: default; outline-offset: 1px;
+  }
+  .cell:hover, .cell:focus-visible { border-color: var(--acc); box-shadow: 0 1px 6px var(--ring); z-index: 2; }
+  .cell .num { position: absolute; top: 3px; left: 5px; font-size: 9.5px; color: var(--ink-2); }
+  .cell .mass { position: absolute; top: 3px; right: 5px; font-size: 8.5px; color: var(--ink-3); }
+  .cell .sym { font-size: 19px; font-weight: 700; line-height: 1.1; }
+  .cell .zh { font-size: 13px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cell .zh .py { font-size: 9px; color: var(--ink-2); margin-left: 3px; }
+  .cell .ja { font-size: 10px; color: var(--ink-2); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cell.marker { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3px; text-align: center; }
+  .cell.marker .rng { font-size: 11px; font-weight: 600; }
+  .cell.marker .lbl { font-size: 9.5px; color: var(--ink-2); line-height: 1.35; }
+  #tip {
+    position: fixed; display: none; z-index: 10; max-width: 300px; pointer-events: none;
+    background: var(--surface-1); border: 1px solid var(--hairline); border-top: 3px solid var(--acc, var(--hairline));
+    border-radius: 6px; box-shadow: 0 4px 18px rgba(0,0,0,.18); padding: 10px 12px; font-size: 12px;
+  }
+  #tip h3 { margin: 0 0 6px; font-size: 15px; }
+  #tip h3 small { color: var(--ink-2); font-weight: 500; margin-left: 6px; }
+  #tip table { border-collapse: collapse; }
+  #tip td { padding: 1.5px 0; vertical-align: top; }
+  #tip td:first-child { color: var(--ink-3); padding-right: 12px; white-space: nowrap; }
+  .legend { max-width: 1400px; margin: 16px auto 0; display: flex; flex-wrap: wrap; gap: 7px 18px; font-size: 12px; color: var(--ink-2); }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .legend .chip { width: 11px; height: 11px; border-radius: 3px; background: var(--acc); border: 1px solid var(--ring); }
+  details.tableview { max-width: 1400px; margin: 26px auto 0; font-size: 13px; }
+  details.tableview summary { cursor: pointer; color: var(--ink-2); }
+  details.tableview table { border-collapse: collapse; margin-top: 12px; width: 100%; }
+  details.tableview th, details.tableview td { border-bottom: 1px solid var(--hairline); padding: 5px 10px; text-align: left; font-weight: normal; }
+  details.tableview th { color: var(--ink-3); font-size: 11.5px; }
+  details.tableview td:first-child { font-variant-numeric: tabular-nums; }
+  footer { max-width: 1400px; margin: 26px auto 0; color: var(--ink-3); font-size: 11.5px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>元素周期表 · 中日对照<span class="ja-title" lang="ja">元素周期表 · 中日対照</span></h1>
+    <p class="subtitle">悬停或聚焦任意元素查看详情 · <span lang="ja">カーソルを合わせると詳細が表示されます</span></p>
+  </div>
+  <div class="anatomy" aria-hidden="true">
+    <div class="cell" data-cat="nonmetal" style="--acc: var(--acc-nonmetal)">
+      <div class="num">1</div><div class="mass">1.008</div>
+      <div class="sym">H</div>
+      <div class="zh">氢<span class="py">qīng</span></div>
+      <div class="ja" lang="ja">水素</div>
+    </div>
+    <ul>
+      <li>左上:原子序数 · <span lang="ja">原子番号</span></li>
+      <li>右上:原子量 · <span lang="ja">原子量</span></li>
+      <li>中文名(拼音)/ <span lang="ja">日本語名</span></li>
+    </ul>
+  </div>
+</header>
+<div class="wrap"><div class="grid" id="grid" role="grid" aria-label="元素周期表"></div></div>
+<div class="legend" id="legend"></div>
+<div id="tip" role="tooltip"></div>
+<details class="tableview">
+  <summary>完整数据表 · <span lang="ja">全データ表</span></summary>
+  <table id="datatable"></table>
+</details>
+<footer>
+  原子量采用 IUPAC 常用约定值;方括号 [ ] 表示无稳定同位素元素最稳定同位素的质量数。中文名为中国大陆标准简体名称,日文名为日本周期表通用表记。
+  <span lang="ja">原子量は IUPAC の慣用値。[ ] は安定同位体を持たない元素の最安定同位体の質量数。</span>
+</footer>
+<script id="data" type="application/json">[{"number":1,"symbol":"H","name_en":"Hydrogen","name_zh":"氢","pinyin":"qīng","name_ja":"水素","kana":"すいそ","mass":"1.008","category":"nonmetal","group":1,"period":1},{"number":2,"symbol":"He","name_en":"Helium","name_zh":"氦","pinyin":"hài","name_ja":"ヘリウム","kana":"ヘリウム","mass":"4.0026","category":"noble-gas","group":18,"period":1},{"number":3,"symbol":"Li","name_en":"Lithium","name_zh":"锂","pinyin":"lǐ","name_ja":"リチウム","kana":"リチウム","mass":"6.94","category":"alkali-metal","group":1,"period":2},{"number":4,"symbol":"Be","name_en":"Beryllium","name_zh":"铍","pinyin":"pí","name_ja":"ベリリウム","kana":"ベリリウム","mass":"9.0122","category":"alkaline-earth-metal","group":2,"period":2},{"number":5,"symbol":"B","name_en":"Boron","name_zh":"硼","pinyin":"péng","name_ja":"ホウ素","kana":"ほうそ","mass":"10.81","category":"metalloid","group":13,"period":2},{"number":6,"symbol":"C","name_en":"Carbon","name_zh":"碳","pinyin":"tàn","name_ja":"炭素","kana":"たんそ","mass":"12.011","category":"nonmetal","group":14,"period":2},{"number":7,"symbol":"N","name_en":"Nitrogen","name_zh":"氮","pinyin":"dàn","name_ja":"窒素","kana":"ちっそ","mass":"14.007","category":"nonmetal","group":15,"period":2},{"number":8,"symbol":"O","name_en":"Oxygen","name_zh":"氧","pinyin":"yǎng","name_ja":"酸素","kana":"さんそ","mass":"15.999","category":"nonmetal","group":16,"period":2},{"number":9,"symbol":"F","name_en":"Fluorine","name_zh":"氟","pinyin":"fú","name_ja":"フッ素","kana":"ふっそ","mass":"18.998","category":"halogen","group":17,"period":2},{"number":10,"symbol":"Ne","name_en":"Neon","name_zh":"氖","pinyin":"nǎi","name_ja":"ネオン","kana":"ネオン","mass":"20.180","category":"noble-gas","group":18,"period":2},{"number":11,"symbol":"Na","name_en":"Sodium","name_zh":"钠","pinyin":"nà","name_ja":"ナトリウム","kana":"ナトリウム","mass":"22.990","category":"alkali-metal","group":1,"period":3},{"number":12,"symbol":"Mg","name_en":"Magnesium","name_zh":"镁","pinyin":"měi","name_ja":"マグネシウム","kana":"マグネシウム","mass":"24.305","category":"alkaline-earth-metal","group":2,"period":3},{"number":13,"symbol":"Al","name_en":"Aluminium","name_zh":"铝","pinyin":"lǚ","name_ja":"アルミニウム","kana":"アルミニウム","mass":"26.982","category":"post-transition-metal","group":13,"period":3},{"number":14,"symbol":"Si","name_en":"Silicon","name_zh":"硅","pinyin":"guī","name_ja":"ケイ素","kana":"けいそ","mass":"28.085","category":"metalloid","group":14,"period":3},{"number":15,"symbol":"P","name_en":"Phosphorus","name_zh":"磷","pinyin":"lín","name_ja":"リン","kana":"リン","mass":"30.974","category":"nonmetal","group":15,"period":3},{"number":16,"symbol":"S","name_en":"Sulfur","name_zh":"硫","pinyin":"liú","name_ja":"硫黄","kana":"いおう","mass":"32.06","category":"nonmetal","group":16,"period":3},{"number":17,"symbol":"Cl","name_en":"Chlorine","name_zh":"氯","pinyin":"lǜ","name_ja":"塩素","kana":"えんそ","mass":"35.45","category":"halogen","group":17,"period":3},{"number":18,"symbol":"Ar","name_en":"Argon","name_zh":"氩","pinyin":"yà","name_ja":"アルゴン","kana":"アルゴン","mass":"39.95","category":"noble-gas","group":18,"period":3},{"number":19,"symbol":"K","name_en":"Potassium","name_zh":"钾","pinyin":"jiǎ","name_ja":"カリウム","kana":"カリウム","mass":"39.098","category":"alkali-metal","group":1,"period":4},{"number":20,"symbol":"Ca","name_en":"Calcium","name_zh":"钙","pinyin":"gài","name_ja":"カルシウム","kana":"カルシウム","mass":"40.078","category":"alkaline-earth-metal","group":2,"period":4},{"number":21,"symbol":"Sc","name_en":"Scandium","name_zh":"钪","pinyin":"kàng","name_ja":"スカンジウム","kana":"スカンジウム","mass":"44.956","category":"transition-metal","group":3,"period":4},{"number":22,"symbol":"Ti","name_en":"Titanium","name_zh":"钛","pinyin":"tài","name_ja":"チタン","kana":"チタン","mass":"47.867","category":"transition-metal","group":4,"period":4},{"number":23,"symbol":"V","name_en":"Vanadium","name_zh":"钒","pinyin":"fán","name_ja":"バナジウム","kana":"バナジウム","mass":"50.942","category":"transition-metal","group":5,"period":4},{"number":24,"symbol":"Cr","name_en":"Chromium","name_zh":"铬","pinyin":"gè","name_ja":"クロム","kana":"クロム","mass":"51.996","category":"transition-metal","group":6,"period":4},{"number":25,"symbol":"Mn","name_en":"Manganese","name_zh":"锰","pinyin":"měng","name_ja":"マンガン","kana":"マンガン","mass":"54.938","category":"transition-metal","group":7,"period":4},{"number":26,"symbol":"Fe","name_en":"Iron","name_zh":"铁","pinyin":"tiě","name_ja":"鉄","kana":"てつ","mass":"55.845","category":"transition-metal","group":8,"period":4},{"number":27,"symbol":"Co","name_en":"Cobalt","name_zh":"钴","pinyin":"gǔ","name_ja":"コバルト","kana":"コバルト","mass":"58.933","category":"transition-metal","group":9,"period":4},{"number":28,"symbol":"Ni","name_en":"Nickel","name_zh":"镍","pinyin":"niè","name_ja":"ニッケル","kana":"ニッケル","mass":"58.693","category":"transition-metal","group":10,"period":4},{"number":29,"symbol":"Cu","name_en":"Copper","name_zh":"铜","pinyin":"tóng","name_ja":"銅","kana":"どう","mass":"63.546","category":"transition-metal","group":11,"period":4},{"number":30,"symbol":"Zn","name_en":"Zinc","name_zh":"锌","pinyin":"xīn","name_ja":"亜鉛","kana":"あえん","mass":"65.38","category":"transition-metal","group":12,"period":4},{"number":31,"symbol":"Ga","name_en":"Gallium","name_zh":"镓","pinyin":"jiā","name_ja":"ガリウム","kana":"ガリウム","mass":"69.723","category":"post-transition-metal","group":13,"period":4},{"number":32,"symbol":"Ge","name_en":"Germanium","name_zh":"锗","pinyin":"zhě","name_ja":"ゲルマニウム","kana":"ゲルマニウム","mass":"72.630","category":"metalloid","group":14,"period":4},{"number":33,"symbol":"As","name_en":"Arsenic","name_zh":"砷","pinyin":"shēn","name_ja":"ヒ素","kana":"ひそ","mass":"74.922","category":"metalloid","group":15,"period":4},{"number":34,"symbol":"Se","name_en":"Selenium","name_zh":"硒","pinyin":"xī","name_ja":"セレン","kana":"セレン","mass":"78.971","category":"nonmetal","group":16,"period":4},{"number":35,"symbol":"Br","name_en":"Bromine","name_zh":"溴","pinyin":"xiù","name_ja":"臭素","kana":"しゅうそ","mass":"79.904","category":"halogen","group":17,"period":4},{"number":36,"symbol":"Kr","name_en":"Krypton","name_zh":"氪","pinyin":"kè","name_ja":"クリプトン","kana":"クリプトン","mass":"83.798","category":"noble-gas","group":18,"period":4},{"number":37,"symbol":"Rb","name_en":"Rubidium","name_zh":"铷","pinyin":"rú","name_ja":"ルビジウム","kana":"ルビジウム","mass":"85.468","category":"alkali-metal","group":1,"period":5},{"number":38,"symbol":"Sr","name_en":"Strontium","name_zh":"锶","pinyin":"sī","name_ja":"ストロンチウム","kana":"ストロンチウム","mass":"87.62","category":"alkaline-earth-metal","group":2,"period":5},{"number":39,"symbol":"Y","name_en":"Yttrium","name_zh":"钇","pinyin":"yǐ","name_ja":"イットリウム","kana":"イットリウム","mass":"88.906","category":"transition-metal","group":3,"period":5},{"number":40,"symbol":"Zr","name_en":"Zirconium","name_zh":"锆","pinyin":"gào","name_ja":"ジルコニウム","kana":"ジルコニウム","mass":"91.224","category":"transition-metal","group":4,"period":5},{"number":41,"symbol":"Nb","name_en":"Niobium","name_zh":"铌","pinyin":"ní","name_ja":"ニオブ","kana":"ニオブ","mass":"92.906","category":"transition-metal","group":5,"period":5},{"number":42,"symbol":"Mo","name_en":"Molybdenum","name_zh":"钼","pinyin":"mù","name_ja":"モリブデン","kana":"モリブデン","mass":"95.95","category":"transition-metal","group":6,"period":5},{"number":43,"symbol":"Tc","name_en":"Technetium","name_zh":"锝","pinyin":"dé","name_ja":"テクネチウム","kana":"テクネチウム","mass":"[98]","category":"transition-metal","group":7,"period":5},{"number":44,"symbol":"Ru","name_en":"Ruthenium","name_zh":"钌","pinyin":"liǎo","name_ja":"ルテニウム","kana":"ルテニウム","mass":"101.07","category":"transition-metal","group":8,"period":5},{"number":45,"symbol":"Rh","name_en":"Rhodium","name_zh":"铑","pinyin":"lǎo","name_ja":"ロジウム","kana":"ロジウム","mass":"102.91","category":"transition-metal","group":9,"period":5},{"number":46,"symbol":"Pd","name_en":"Palladium","name_zh":"钯","pinyin":"bǎ","name_ja":"パラジウム","kana":"パラジウム","mass":"106.42","category":"transition-metal","group":10,"period":5},{"number":47,"symbol":"Ag","name_en":"Silver","name_zh":"银","pinyin":"yín","name_ja":"銀","kana":"ぎん","mass":"107.87","category":"transition-metal","group":11,"period":5},{"number":48,"symbol":"Cd","name_en":"Cadmium","name_zh":"镉","pinyin":"gé","name_ja":"カドミウム","kana":"カドミウム","mass":"112.41","category":"transition-metal","group":12,"period":5},{"number":49,"symbol":"In","name_en":"Indium","name_zh":"铟","pinyin":"yīn","name_ja":"インジウム","kana":"インジウム","mass":"114.82","category":"post-transition-metal","group":13,"period":5},{"number":50,"symbol":"Sn","name_en":"Tin","name_zh":"锡","pinyin":"xī","name_ja":"スズ","kana":"すず","mass":"118.71","category":"post-transition-metal","group":14,"period":5},{"number":51,"symbol":"Sb","name_en":"Antimony","name_zh":"锑","pinyin":"tī","name_ja":"アンチモン","kana":"アンチモン","mass":"121.76","category":"metalloid","group":15,"period":5},{"number":52,"symbol":"Te","name_en":"Tellurium","name_zh":"碲","pinyin":"dì","name_ja":"テルル","kana":"テルル","mass":"127.60","category":"metalloid","group":16,"period":5},{"number":53,"symbol":"I","name_en":"Iodine","name_zh":"碘","pinyin":"diǎn","name_ja":"ヨウ素","kana":"ようそ","mass":"126.90","category":"halogen","group":17,"period":5},{"number":54,"symbol":"Xe","name_en":"Xenon","name_zh":"氙","pinyin":"xiān","name_ja":"キセノン","kana":"キセノン","mass":"131.29","category":"noble-gas","group":18,"period":5},{"number":55,"symbol":"Cs","name_en":"Cesium","name_zh":"铯","pinyin":"sè","name_ja":"セシウム","kana":"セシウム","mass":"132.91","category":"alkali-metal","group":1,"period":6},{"number":56,"symbol":"Ba","name_en":"Barium","name_zh":"钡","pinyin":"bèi","name_ja":"バリウム","kana":"バリウム","mass":"137.33","category":"alkaline-earth-metal","group":2,"period":6},{"number":57,"symbol":"La","name_en":"Lanthanum","name_zh":"镧","pinyin":"lán","name_ja":"ランタン","kana":"ランタン","mass":"138.91","category":"lanthanide","group":3,"period":6},{"number":58,"symbol":"Ce","name_en":"Cerium","name_zh":"铈","pinyin":"shì","name_ja":"セリウム","kana":"セリウム","mass":"140.12","category":"lanthanide","group":3,"period":6},{"number":59,"symbol":"Pr","name_en":"Praseodymium","name_zh":"镨","pinyin":"pǔ","name_ja":"プラセオジム","kana":"プラセオジム","mass":"140.91","category":"lanthanide","group":3,"period":6},{"number":60,"symbol":"Nd","name_en":"Neodymium","name_zh":"钕","pinyin":"nǚ","name_ja":"ネオジム","kana":"ネオジム","mass":"144.24","category":"lanthanide","group":3,"period":6},{"number":61,"symbol":"Pm","name_en":"Promethium","name_zh":"钷","pinyin":"pǒ","name_ja":"プロメチウム","kana":"プロメチウム","mass":"[145]","category":"lanthanide","group":3,"period":6},{"number":62,"symbol":"Sm","name_en":"Samarium","name_zh":"钐","pinyin":"shān","name_ja":"サマリウム","kana":"サマリウム","mass":"150.36","category":"lanthanide","group":3,"period":6},{"number":63,"symbol":"Eu","name_en":"Europium","name_zh":"铕","pinyin":"yǒu","name_ja":"ユウロピウム","kana":"ユウロピウム","mass":"151.964","category":"lanthanide","group":3,"period":6},{"number":64,"symbol":"Gd","name_en":"Gadolinium","name_zh":"钆","pinyin":"gá","name_ja":"ガドリニウム","kana":"ガドリニウム","mass":"157.25","category":"lanthanide","group":3,"period":6},{"number":65,"symbol":"Tb","name_en":"Terbium","name_zh":"铽","pinyin":"tè","name_ja":"テルビウム","kana":"テルビウム","mass":"158.925","category":"lanthanide","group":3,"period":6},{"number":66,"symbol":"Dy","name_en":"Dysprosium","name_zh":"镝","pinyin":"dī","name_ja":"ジスプロシウム","kana":"ジスプロシウム","mass":"162.500","category":"lanthanide","group":3,"period":6},{"number":67,"symbol":"Ho","name_en":"Holmium","name_zh":"钬","pinyin":"huǒ","name_ja":"ホルミウム","kana":"ホルミウム","mass":"164.930","category":"lanthanide","group":3,"period":6},{"number":68,"symbol":"Er","name_en":"Erbium","name_zh":"铒","pinyin":"ěr","name_ja":"エルビウム","kana":"エルビウム","mass":"167.259","category":"lanthanide","group":3,"period":6},{"number":69,"symbol":"Tm","name_en":"Thulium","name_zh":"铥","pinyin":"diū","name_ja":"ツリウム","kana":"ツリウム","mass":"168.934","category":"lanthanide","group":3,"period":6},{"number":70,"symbol":"Yb","name_en":"Ytterbium","name_zh":"镱","pinyin":"yì","name_ja":"イッテルビウム","kana":"イッテルビウム","mass":"173.045","category":"lanthanide","group":3,"period":6},{"number":71,"symbol":"Lu","name_en":"Lutetium","name_zh":"镥","pinyin":"lǔ","name_ja":"ルテチウム","kana":"ルテチウム","mass":"174.967","category":"lanthanide","group":3,"period":6},{"number":72,"symbol":"Hf","name_en":"Hafnium","name_zh":"铪","pinyin":"hā","name_ja":"ハフニウム","kana":"ハフニウム","mass":"178.49","category":"transition-metal","group":4,"period":6},{"number":73,"symbol":"Ta","name_en":"Tantalum","name_zh":"钽","pinyin":"tǎn","name_ja":"タンタル","kana":"タンタル","mass":"180.948","category":"transition-metal","group":5,"period":6},{"number":74,"symbol":"W","name_en":"Tungsten","name_zh":"钨","pinyin":"wū","name_ja":"タングステン","kana":"タングステン","mass":"183.84","category":"transition-metal","group":6,"period":6},{"number":75,"symbol":"Re","name_en":"Rhenium","name_zh":"铼","pinyin":"lái","name_ja":"レニウム","kana":"レニウム","mass":"186.207","category":"transition-metal","group":7,"period":6},{"number":76,"symbol":"Os","name_en":"Osmium","name_zh":"锇","pinyin":"é","name_ja":"オスミウム","kana":"オスミウム","mass":"190.23","category":"transition-metal","group":8,"period":6},{"number":77,"symbol":"Ir","name_en":"Iridium","name_zh":"铱","pinyin":"yī","name_ja":"イリジウム","kana":"イリジウム","mass":"192.217","category":"transition-metal","group":9,"period":6},{"number":78,"symbol":"Pt","name_en":"Platinum","name_zh":"铂","pinyin":"bó","name_ja":"白金","kana":"はっきん","mass":"195.084","category":"transition-metal","group":10,"period":6},{"number":79,"symbol":"Au","name_en":"Gold","name_zh":"金","pinyin":"jīn","name_ja":"金","kana":"きん","mass":"196.967","category":"transition-metal","group":11,"period":6},{"number":80,"symbol":"Hg","name_en":"Mercury","name_zh":"汞","pinyin":"gǒng","name_ja":"水銀","kana":"すいぎん","mass":"200.592","category":"transition-metal","group":12,"period":6},{"number":81,"symbol":"Tl","name_en":"Thallium","name_zh":"铊","pinyin":"tā","name_ja":"タリウム","kana":"タリウム","mass":"204.38","category":"post-transition-metal","group":13,"period":6},{"number":82,"symbol":"Pb","name_en":"Lead","name_zh":"铅","pinyin":"qiān","name_ja":"鉛","kana":"なまり","mass":"207.2","category":"post-transition-metal","group":14,"period":6},{"number":83,"symbol":"Bi","name_en":"Bismuth","name_zh":"铋","pinyin":"bì","name_ja":"ビスマス","kana":"ビスマス","mass":"208.980","category":"post-transition-metal","group":15,"period":6},{"number":84,"symbol":"Po","name_en":"Polonium","name_zh":"钋","pinyin":"pō","name_ja":"ポロニウム","kana":"ポロニウム","mass":"[209]","category":"post-transition-metal","group":16,"period":6},{"number":85,"symbol":"At","name_en":"Astatine","name_zh":"砹","pinyin":"ài","name_ja":"アスタチン","kana":"アスタチン","mass":"[210]","category":"halogen","group":17,"period":6},{"number":86,"symbol":"Rn","name_en":"Radon","name_zh":"氡","pinyin":"dōng","name_ja":"ラドン","kana":"ラドン","mass":"[222]","category":"noble-gas","group":18,"period":6},{"number":87,"symbol":"Fr","name_en":"Francium","name_zh":"钫","pinyin":"fāng","name_ja":"フランシウム","kana":"フランシウム","mass":"[223]","category":"alkali-metal","group":1,"period":7},{"number":88,"symbol":"Ra","name_en":"Radium","name_zh":"镭","pinyin":"léi","name_ja":"ラジウム","kana":"ラジウム","mass":"[226]","category":"alkaline-earth-metal","group":2,"period":7},{"number":89,"symbol":"Ac","name_en":"Actinium","name_zh":"锕","pinyin":"ā","name_ja":"アクチニウム","kana":"アクチニウム","mass":"[227]","category":"actinide","group":3,"period":7},{"number":90,"symbol":"Th","name_en":"Thorium","name_zh":"钍","pinyin":"tǔ","name_ja":"トリウム","kana":"トリウム","mass":"232.038","category":"actinide","group":3,"period":7},{"number":91,"symbol":"Pa","name_en":"Protactinium","name_zh":"镤","pinyin":"pú","name_ja":"プロトアクチニウム","kana":"プロトアクチニウム","mass":"231.04","category":"actinide","group":3,"period":7},{"number":92,"symbol":"U","name_en":"Uranium","name_zh":"铀","pinyin":"yóu","name_ja":"ウラン","kana":"ウラン","mass":"238.03","category":"actinide","group":3,"period":7},{"number":93,"symbol":"Np","name_en":"Neptunium","name_zh":"镎","pinyin":"ná","name_ja":"ネプツニウム","kana":"ネプツニウム","mass":"[237]","category":"actinide","group":3,"period":7},{"number":94,"symbol":"Pu","name_en":"Plutonium","name_zh":"钚","pinyin":"bù","name_ja":"プルトニウム","kana":"プルトニウム","mass":"[244]","category":"actinide","group":3,"period":7},{"number":95,"symbol":"Am","name_en":"Americium","name_zh":"镅","pinyin":"méi","name_ja":"アメリシウム","kana":"アメリシウム","mass":"[243]","category":"actinide","group":3,"period":7},{"number":96,"symbol":"Cm","name_en":"Curium","name_zh":"锔","pinyin":"jú","name_ja":"キュリウム","kana":"キュリウム","mass":"[247]","category":"actinide","group":3,"period":7},{"number":97,"symbol":"Bk","name_en":"Berkelium","name_zh":"锫","pinyin":"péi","name_ja":"バークリウム","kana":"バークリウム","mass":"[247]","category":"actinide","group":3,"period":7},{"number":98,"symbol":"Cf","name_en":"Californium","name_zh":"锎","pinyin":"kāi","name_ja":"カリホルニウム","kana":"カリホルニウム","mass":"[251]","category":"actinide","group":3,"period":7},{"number":99,"symbol":"Es","name_en":"Einsteinium","name_zh":"锿","pinyin":"āi","name_ja":"アインスタイニウム","kana":"アインスタイニウム","mass":"[252]","category":"actinide","group":3,"period":7},{"number":100,"symbol":"Fm","name_en":"Fermium","name_zh":"镄","pinyin":"fèi","name_ja":"フェルミウム","kana":"フェルミウム","mass":"[257]","category":"actinide","group":3,"period":7},{"number":101,"symbol":"Md","name_en":"Mendelevium","name_zh":"钔","pinyin":"mén","name_ja":"メンデレビウム","kana":"メンデレビウム","mass":"[258]","category":"actinide","group":3,"period":7},{"number":102,"symbol":"No","name_en":"Nobelium","name_zh":"锘","pinyin":"nuò","name_ja":"ノーベリウム","kana":"ノーベリウム","mass":"[259]","category":"actinide","group":3,"period":7},{"number":103,"symbol":"Lr","name_en":"Lawrencium","name_zh":"铹","pinyin":"láo","name_ja":"ローレンシウム","kana":"ローレンシウム","mass":"[266]","category":"actinide","group":3,"period":7},{"number":104,"symbol":"Rf","name_en":"Rutherfordium","name_zh":"𬬻","pinyin":"lú","name_ja":"ラザホージウム","kana":"ラザホージウム","mass":"[267]","category":"transition-metal","group":4,"period":7},{"number":105,"symbol":"Db","name_en":"Dubnium","name_zh":"𬭊","pinyin":"dù","name_ja":"ドブニウム","kana":"ドブニウム","mass":"[268]","category":"transition-metal","group":5,"period":7},{"number":106,"symbol":"Sg","name_en":"Seaborgium","name_zh":"𬭳","pinyin":"xǐ","name_ja":"シーボーギウム","kana":"シーボーギウム","mass":"[269]","category":"transition-metal","group":6,"period":7},{"number":107,"symbol":"Bh","name_en":"Bohrium","name_zh":"𬭛","pinyin":"bō","name_ja":"ボーリウム","kana":"ボーリウム","mass":"[270]","category":"transition-metal","group":7,"period":7},{"number":108,"symbol":"Hs","name_en":"Hassium","name_zh":"𬭶","pinyin":"hēi","name_ja":"ハッシウム","kana":"ハッシウム","mass":"[269]","category":"transition-metal","group":8,"period":7},{"number":109,"symbol":"Mt","name_en":"Meitnerium","name_zh":"鿏","pinyin":"mài","name_ja":"マイトネリウム","kana":"マイトネリウム","mass":"[278]","category":"unknown","group":9,"period":7},{"number":110,"symbol":"Ds","name_en":"Darmstadtium","name_zh":"𫟼","pinyin":"dá","name_ja":"ダームスタチウム","kana":"ダームスタチウム","mass":"[281]","category":"unknown","group":10,"period":7},{"number":111,"symbol":"Rg","name_en":"Roentgenium","name_zh":"𬬭","pinyin":"lún","name_ja":"レントゲニウム","kana":"レントゲニウム","mass":"[282]","category":"unknown","group":11,"period":7},{"number":112,"symbol":"Cn","name_en":"Copernicium","name_zh":"鿔","pinyin":"gē","name_ja":"コペルニシウム","kana":"コペルニシウム","mass":"[285]","category":"unknown","group":12,"period":7},{"number":113,"symbol":"Nh","name_en":"Nihonium","name_zh":"鿭","pinyin":"nǐ","name_ja":"ニホニウム","kana":"ニホニウム","mass":"[286]","category":"unknown","group":13,"period":7},{"number":114,"symbol":"Fl","name_en":"Flerovium","name_zh":"𫓧","pinyin":"fū","name_ja":"フレロビウム","kana":"フレロビウム","mass":"[289]","category":"unknown","group":14,"period":7},{"number":115,"symbol":"Mc","name_en":"Moscovium","name_zh":"镆","pinyin":"mò","name_ja":"モスコビウム","kana":"モスコビウム","mass":"[290]","category":"unknown","group":15,"period":7},{"number":116,"symbol":"Lv","name_en":"Livermorium","name_zh":"𫟷","pinyin":"lì","name_ja":"リバモリウム","kana":"リバモリウム","mass":"[293]","category":"unknown","group":16,"period":7},{"number":117,"symbol":"Ts","name_en":"Tennessine","name_zh":"鿬","pinyin":"tián","name_ja":"テネシン","kana":"テネシン","mass":"[294]","category":"unknown","group":17,"period":7},{"number":118,"symbol":"Og","name_en":"Oganesson","name_zh":"鿫","pinyin":"ào","name_ja":"オガネソン","kana":"オガネソン","mass":"[294]","category":"unknown","group":18,"period":7}]</script>
+<script>
+const ELEMENTS = JSON.parse(document.getElementById('data').textContent);
+const CATS = {
+  'alkali-metal':          { zh: '碱金属',   ja: 'アルカリ金属' },
+  'alkaline-earth-metal':  { zh: '碱土金属', ja: 'アルカリ土類金属' },
+  'transition-metal':      { zh: '过渡金属', ja: '遷移金属' },
+  'post-transition-metal': { zh: '后过渡金属', ja: 'ポスト遷移金属' },
+  'metalloid':             { zh: '类金属',   ja: '半金属' },
+  'nonmetal':              { zh: '非金属',   ja: '非金属' },
+  'halogen':               { zh: '卤素',     ja: 'ハロゲン' },
+  'noble-gas':             { zh: '稀有气体', ja: '貴ガス' },
+  'lanthanide':            { zh: '镧系',     ja: 'ランタノイド' },
+  'actinide':              { zh: '锕系',     ja: 'アクチノイド' },
+  'unknown':               { zh: '性质未知', ja: '特性未知' },
+};
+
+function pos(n) {
+  if (n === 1) return [1, 1];
+  if (n === 2) return [1, 18];
+  if (n <= 4)  return [2, n - 2];
+  if (n <= 10) return [2, n + 8];
+  if (n <= 12) return [3, n - 10];
+  if (n <= 18) return [3, n];
+  if (n <= 36) return [4, n - 18];
+  if (n <= 54) return [5, n - 36];
+  if (n <= 56) return [6, n - 54];
+  if (n <= 71) return [9, n - 53];   // lanthanides
+  if (n <= 86) return [6, n - 68];
+  if (n <= 88) return [7, n - 86];
+  if (n <= 103) return [10, n - 85]; // actinides
+  return [7, n - 100];
+}
+
+const grid = document.getElementById('grid');
+for (let g = 1; g <= 18; g++) {
+  const d = document.createElement('div');
+  d.className = 'glabel'; d.textContent = g;
+  d.style.gridRow = 1; d.style.gridColumn = g + 1;
+  grid.appendChild(d);
+}
+for (let p = 1; p <= 7; p++) {
+  const d = document.createElement('div');
+  d.className = 'plabel'; d.textContent = p;
+  d.style.gridRow = p + 1; d.style.gridColumn = 1;
+  grid.appendChild(d);
+}
+for (const [row, col, rng, cat] of [[6, 3, '57–71', 'lanthanide'], [7, 3, '89–103', 'actinide']]) {
+  const d = document.createElement('div');
+  d.className = 'cell marker';
+  d.style.setProperty('--acc', `var(--acc-${cat})`);
+  d.style.gridRow = row + 1; d.style.gridColumn = col + 1;
+  d.innerHTML = `<div class="rng">${rng}</div><div class="lbl">${CATS[cat].zh}<br><span lang="ja">${CATS[cat].ja}</span></div>`;
+  grid.appendChild(d);
+}
+
+const tip = document.getElementById('tip');
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+for (const e of ELEMENTS) {
+  const [row, col] = pos(e.number);
+  const d = document.createElement('div');
+  d.className = 'cell'; d.tabIndex = 0; d.setAttribute('role', 'gridcell');
+  d.style.setProperty('--acc', `var(--acc-${e.category})`);
+  d.style.gridRow = row + 1; d.style.gridColumn = col + 1;
+  const kanaLine = e.kana !== e.name_ja ? ` <span class="py" lang="ja">${esc(e.kana)}</span>` : '';
+  d.innerHTML =
+    `<div class="num">${e.number}</div><div class="mass">${esc(e.mass)}</div>` +
+    `<div class="sym">${esc(e.symbol)}</div>` +
+    `<div class="zh">${esc(e.name_zh)}<span class="py">${esc(e.pinyin)}</span></div>` +
+    `<div class="ja" lang="ja" title="${esc(e.name_ja)}">${esc(e.name_ja)}${kanaLine}</div>`;
+  d.setAttribute('aria-label', `${e.number} ${e.symbol} ${e.name_zh} ${e.name_ja}`);
+  d.addEventListener('pointerenter', ev => showTip(e, ev));
+  d.addEventListener('pointermove', ev => moveTip(ev.clientX, ev.clientY));
+  d.addEventListener('pointerleave', hideTip);
+  d.addEventListener('focus', () => { const r = d.getBoundingClientRect(); showTip(e, null); moveTip(r.right, r.top); });
+  d.addEventListener('blur', hideTip);
+  grid.appendChild(d);
+}
+
+function showTip(e, ev) {
+  const c = CATS[e.category];
+  tip.style.setProperty('--acc', `var(--acc-${e.category})`);
+  tip.innerHTML = `<h3>${e.number} · ${esc(e.symbol)}<small>${esc(e.name_en)}</small></h3><table>` +
+    `<tr><td>中文名</td><td>${esc(e.name_zh)}(${esc(e.pinyin)})</td></tr>` +
+    `<tr><td lang="ja">日本語名</td><td lang="ja">${esc(e.name_ja)}(${esc(e.kana)})</td></tr>` +
+    `<tr><td>原子量</td><td>${esc(e.mass)}</td></tr>` +
+    `<tr><td>类别 · <span lang="ja">分類</span></td><td>${c.zh} · <span lang="ja">${c.ja}</span></td></tr>` +
+    `<tr><td>族 / 周期</td><td>${e.group} / ${e.period}</td></tr></table>`;
+  tip.style.display = 'block';
+  if (ev) moveTip(ev.clientX, ev.clientY);
+}
+function moveTip(x, y) {
+  const r = tip.getBoundingClientRect();
+  tip.style.left = Math.min(x + 14, window.innerWidth - r.width - 8) + 'px';
+  tip.style.top = Math.min(y + 14, window.innerHeight - r.height - 8) + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+
+const legend = document.getElementById('legend');
+for (const [key, c] of Object.entries(CATS)) {
+  const d = document.createElement('div');
+  d.className = 'item'; d.style.setProperty('--acc', `var(--acc-${key})`);
+  d.innerHTML = `<span class="chip"></span>${c.zh} · <span lang="ja">${c.ja}</span>`;
+  legend.appendChild(d);
+}
+
+const table = document.getElementById('datatable');
+table.innerHTML = '<tr><th>No.</th><th>符号</th><th>中文名(拼音)</th><th lang="ja">日本語名(読み)</th><th>English</th><th>原子量</th><th>类别 · <span lang="ja">分類</span></th><th>族</th><th>周期</th></tr>' +
+  ELEMENTS.map(e => `<tr><td>${e.number}</td><td>${esc(e.symbol)}</td><td>${esc(e.name_zh)}(${esc(e.pinyin)})</td>` +
+    `<td lang="ja">${esc(e.name_ja)}(${esc(e.kana)})</td><td>${esc(e.name_en)}</td><td>${esc(e.mass)}</td>` +
+    `<td>${CATS[e.category].zh} · <span lang="ja">${CATS[e.category].ja}</span></td><td>${e.group}</td><td>${e.period}</td></tr>`).join('');
+</script>
+</body>
+</html>
